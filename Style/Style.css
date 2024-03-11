@@ -20,13 +20,17 @@ body {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  width: 450px;
 }
 #display {
+  word-wrap: break-word;
   width: calc(100% - 60px);
   height: 60px;
   font-size: 2.5em;
   padding: 30px;
   color: #1b1a1d;
+  overflow-y: scroll;
+  scrollbar-width: thin;
 }
 #buttons-container {
   display: grid;

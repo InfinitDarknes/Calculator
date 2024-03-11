@@ -1,6 +1,7 @@
 // Varlaibles
 const Display = document.getElementById("display");
 const NumberBtns = document.querySelectorAll(".number-btn");
+const FloatBtn = document.getElementById("float-btn");
 const EqualBtn = document.getElementById("equal-btn");
 const ClearBtn = document.getElementById("clear-btn");
 const DeleteBtn = document.getElementById("delete-btn");
@@ -14,6 +15,74 @@ let CalcInfo = {
   Num2: "",
   Operation: "",
 };
+function Calc() {
+  switch (CalcInfo.Operation) {
+    case "Addition":
+      return Addition();
+    case "Subtraction":
+      return Subtraction();
+    case "Division":
+      return Division();
+    case "Multiplication":
+      return Multiplication();
+    case "Remainder":
+      return Remainder();
+  }
+}
+function AddSymbol(NewSymbol) {
+  let DisplayValue = Display.innerHTML;
+  if (
+    DisplayValue.includes("+") ||
+    DisplayValue.includes("-") ||
+    DisplayValue.includes("÷") ||
+    DisplayValue.includes("×") ||
+    DisplayValue.includes("%")
+  ) {
+    Display.innerHTML = DisplayValue.slice(0, -3) + ` ${NewSymbol} `;
+    console.log(Symbol);
+  } else {
+    Display.innerHTML += ` ${NewSymbol} `;
+  }
+}
+function ClearDisplay() {
+  Display.innerHTML = "";
+}
+function Reset() {
+  Display.innerHTML = "";
+  CalcInfo.Operation = "";
+  CalcInfo.Num1 = "";
+  CalcInfo.Num2 = "";
+}
+function Delete() {
+  if (!Display.innerHTML) return;
+  if (CalcInfo.Num1 && !CalcInfo.Operation && !CalcInfo.Num2) {
+    CalcInfo.Num1 = CalcInfo.Num1.substring(0, CalcInfo.Num1.length - 1);
+    Display.innerHTML = Display.innerHTML.substring(0, Display.innerHTML.length - 1);
+  }
+  if (CalcInfo.Num1 && CalcInfo.Operation && !CalcInfo.Num2) {
+    CalcInfo.Operation = "";
+    Display.innerHTML = Display.innerHTML.substring(0, Display.innerHTML.length - 3);
+  }
+  if (CalcInfo.Num1 && CalcInfo.Operation && CalcInfo.Num2) {
+    CalcInfo.Num2 = CalcInfo.Num2.substring(0, CalcInfo.Num2.length - 1);
+    Display.innerHTML = Display.innerHTML.substring(0, Display.innerHTML.length - 1);
+  }
+}
+function Addition() {
+  return (+CalcInfo.Num1 + +CalcInfo.Num2).toFixed(5);
+}
+function Subtraction() {
+  return (+CalcInfo.Num1 - +CalcInfo.Num2).toFixed(5);
+}
+function Multiplication() {
+  return (+CalcInfo.Num1 * +CalcInfo.Num2).toFixed(5);
+}
+function Remainder() {
+  return (+CalcInfo.Num1 % +CalcInfo.Num2).toFixed(5);
+}
+function Division() {
+  return (+CalcInfo.Num1 / +CalcInfo.Num2).toFixed(5);
+}
 NumberBtns.forEach((Btn) => {
   Btn.addEventListener("click", (Event) => {
     if (CalcInfo.Num1 && CalcInfo.Operation) {
@@ -25,7 +94,7 @@ NumberBtns.forEach((Btn) => {
   });
 });
 ClearBtn.addEventListener("click", Reset);
-// DeleteBtn.addEventListener();
+DeleteBtn.addEventListener("click", Delete);
 EqualBtn.addEventListener("click", () => {
   if (CalcInfo.Num1 && !CalcInfo.Num2) {
     ClearDisplay();
@@ -121,68 +190,45 @@ SubtractionBtn.addEventListener("click", () => {
     CalcInfo.Operation = "Subtraction";
   }
 });
-function Calc() {
-  switch (CalcInfo.Operation) {
-    case "Addition":
-      return Addition();
-    case "Subtraction":
-      return Subtraction();
-    case "Division":
-      return Division();
-    case "Multiplication":
-      return Multiplication();
-    case "Remainder":
-      return Remainder();
+window.addEventListener("keydown", (Event) => {
+  let NumbersKeyCode = [105, 104, 103, 102, 101, 100, 99, 98, 97, 96];
+  if (NumbersKeyCode.includes(Event.keyCode)) {
+    const Key = document.getElementById(`key-${Event.key}`);
+    Key.click();
   }
-}
-function AddSymbol(NewSymbol) {
-  let DisplayValue = Display.innerHTML;
-  if (
-    DisplayValue.includes("+") ||
-    DisplayValue.includes("-") ||
-    DisplayValue.includes("÷") ||
-    DisplayValue.includes("×") ||
-    DisplayValue.includes("%")
-  ) {
-    Display.innerHTML = DisplayValue.slice(0, -3) + ` ${NewSymbol} `;
-    console.log(Symbol);
-  } else {
-    Display.innerHTML += ` ${NewSymbol} `;
+  if (Event.keyCode === 46) {
+    // Del key
+    Reset();
   }
-}
-function ClearDisplay() {
-  Display.innerHTML = "";
-}
-function Reset() {
-  Display.innerHTML = "";
-  CalcInfo.Operation = "";
-  CalcInfo.Num1 = "";
-  CalcInfo.Num2 = "";
-}
-function Addition() {
-  return (+CalcInfo.Num1 + +CalcInfo.Num2).toFixed(5);
-}
-function Subtraction() {
-  return (+CalcInfo.Num1 - +CalcInfo.Num2).toFixed(5);
-}
-function Multiplication() {
-  return (+CalcInfo.Num1 * +CalcInfo.Num2).toFixed(5);
-}
-function Remainder() {
-  return (+CalcInfo.Num1 % +CalcInfo.Num2).toFixed(5);
-}
-function Division() {
-  return (+CalcInfo.Num1 / +CalcInfo.Num2).toFixed(5);
-}
-function Sin(Value) {
-  return Math.sin(+Value);
-}
-function Cos(Value) {
-  return Math.cos(+Value);
-}
-function Tan(Value) {
-  return Math.tan(+Value);
-}
-function Cot(Value) {
-  return 1 / Math.tan(+Value);
-}
+  if (Event.keyCode === 110) {
+    // Float or . key
+    FloatBtn.click();
+  }
+  if (Event.keyCode === 8) {
+    // Backspace key
+    Delete();
+  }
+});
+window.addEventListener("keypress", (Event) => {
+  if (Event.keyCode === 43) {
+    // + key on numbpad
+    AdditionBtn.click();
+  }
+  if (Event.keyCode === 45) {
+    // - key on numbpad
+    SubtractionBtn.click();
+  }
+  if (Event.keyCode === 42) {
+    // * key on numbpad
+    MultiplicationBtn.click();
+  }
+  if (Event.keyCode === 47) {
+    // / key on numbpad
+    Event.preventDefault();
+    DivisionBtn.click();
+  }
+  if (Event.keyCode === 13) {
+    // Enter key on numbpad
+    EqualBtn.click();
+  }
+});

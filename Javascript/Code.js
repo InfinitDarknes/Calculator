@@ -70,7 +70,6 @@ function NumberSeperator(Number) {
     if (n > 1) Position -= n - 1;
     SeperatedArray.splice(Position, 0, ",");
   }
-  console.log(SeperatedArray.join(""));
   return SeperatedArray.join("");
 }
 //

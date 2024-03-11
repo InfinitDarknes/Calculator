@@ -15,35 +15,6 @@ let CalcInfo = {
   Num2: "",
   Operation: "",
 };
-function Calc() {
-  switch (CalcInfo.Operation) {
-    case "Addition":
-      return Addition();
-    case "Subtraction":
-      return Subtraction();
-    case "Division":
-      return Division();
-    case "Multiplication":
-      return Multiplication();
-    case "Remainder":
-      return Remainder();
-  }
-}
-function AddSymbol(NewSymbol) {
-  let DisplayValue = Display.innerHTML;
-  if (
-    DisplayValue.includes("+") ||
-    DisplayValue.includes("-") ||
-    DisplayValue.includes("÷") ||
-    DisplayValue.includes("×") ||
-    DisplayValue.includes("%")
-  ) {
-    Display.innerHTML = DisplayValue.slice(0, -3) + ` ${NewSymbol} `;
-    console.log(Symbol);
-  } else {
-    Display.innerHTML += ` ${NewSymbol} `;
-  }
-}
 function ClearDisplay() {
   Display.innerHTML = "";
 }
@@ -57,15 +28,64 @@ function Delete() {
   if (!Display.innerHTML) return;
   if (CalcInfo.Num1 && !CalcInfo.Operation && !CalcInfo.Num2) {
     CalcInfo.Num1 = CalcInfo.Num1.substring(0, CalcInfo.Num1.length - 1);
-    Display.innerHTML = Display.innerHTML.substring(0, Display.innerHTML.length - 1);
   }
   if (CalcInfo.Num1 && CalcInfo.Operation && !CalcInfo.Num2) {
     CalcInfo.Operation = "";
-    Display.innerHTML = Display.innerHTML.substring(0, Display.innerHTML.length - 3);
   }
   if (CalcInfo.Num1 && CalcInfo.Operation && CalcInfo.Num2) {
     CalcInfo.Num2 = CalcInfo.Num2.substring(0, CalcInfo.Num2.length - 1);
-    Display.innerHTML = Display.innerHTML.substring(0, Display.innerHTML.length - 1);
+  }
+  UpdateDisplay();
+}
+function UpdateDisplay() {
+  let OperationSymbols = {
+    Addition: "+",
+    Subtraction: "-",
+    Multiplication: "×",
+    Division: "÷",
+    Remainder: "%",
+  };
+  if (CalcInfo.Num1 && !CalcInfo.Operation && !CalcInfo.Num2) {
+    Display.innerHTML = `${NumberSeperator(CalcInfo.Num1)}`;
+  }
+  if (CalcInfo.Num1 && CalcInfo.Operation && !CalcInfo.Num2) {
+    Display.innerHTML = `${NumberSeperator(CalcInfo.Num1)} ${OperationSymbols[CalcInfo.Operation]}`;
+  }
+  if (CalcInfo.Num1 && CalcInfo.Operation && CalcInfo.Num2) {
+    Display.innerHTML = `${NumberSeperator(CalcInfo.Num1)} ${OperationSymbols[CalcInfo.Operation]} ${NumberSeperator(CalcInfo.Num2)}`;
+  }
+  if (!CalcInfo.Num1 && !CalcInfo.Operation && !CalcInfo.Num2) {
+    Display.innerHTML = ``;
+  }
+}
+function NumberSeperator(Number) {
+  let Num = Number.toString();
+  let NumArray = Num.split("");
+  let SeperatedArray = [...NumArray];
+  let Length = Num.length;
+  let NeededSeperator = Math.floor(Length / 3);
+  if (Length % 3 === 0) NeededSeperator -= 1;
+  for (let n = 1; n <= NeededSeperator; n++) {
+    let Position = 3 * n * -1;
+    if (n > 1) Position -= n - 1;
+    SeperatedArray.splice(Position, 0, ",");
+  }
+  console.log(SeperatedArray.join(""));
+  return SeperatedArray.join("");
+}
+//
+function Calc() {
+  switch (CalcInfo.Operation) {
+    case "Addition":
+      return Addition();
+    case "Subtraction":
+      return Subtraction();
+    case "Division":
+      return Division();
+    case "Multiplication":
+      return Multiplication();
+    case "Remainder":
+      return Remainder();
   }
 }
 function Addition() {
@@ -98,7 +118,7 @@ NumberBtns.forEach((Btn) => {
     } else {
       CalcInfo.Num1 += Event.target.dataset.num;
     }
-    Display.innerHTML += Event.target.dataset.num;
+    UpdateDisplay();
   });
 });
 ClearBtn.addEventListener("click", Reset);
@@ -107,96 +127,85 @@ EqualBtn.addEventListener("click", () => {
   if (CalcInfo.Num1 && !CalcInfo.Num2) {
     ClearDisplay();
     CalcInfo.Operation = "";
-    Display.innerHTML = CalcInfo.Num1;
   }
   if (CalcInfo.Num1 && CalcInfo.Num2 && CalcInfo.Operation) {
     ClearDisplay();
     let Result = Calc();
     CalcInfo.Num1 = Result;
     CalcInfo.Num2 = "";
-
-    Display.innerHTML = Result;
     CalcInfo.Operation = "";
   }
+  UpdateDisplay();
 });
 RemainberBtn.addEventListener("click", () => {
   if (CalcInfo.Operation === "Remainder" && !CalcInfo.Num2) return;
   if (CalcInfo.Num1 && !CalcInfo.Num2) {
     CalcInfo.Operation = "Remainder";
-    AddSymbol("%");
   }
   if (CalcInfo.Num1 && CalcInfo.Num2 && CalcInfo.Operation) {
     ClearDisplay();
     let Result = Calc();
     CalcInfo.Num1 = Result;
     CalcInfo.Num2 = "";
-
-    Display.innerHTML = Result + " % ";
     CalcInfo.Operation = "Remainder";
   }
+  UpdateDisplay();
 });
 DivisionBtn.addEventListener("click", () => {
   if (CalcInfo.Operation === "Division" && !CalcInfo.Num2) return;
   if (CalcInfo.Num1 && !CalcInfo.Num2) {
     CalcInfo.Operation = "Division";
-    AddSymbol("÷");
   }
   if (CalcInfo.Num1 && CalcInfo.Num2 && CalcInfo.Operation) {
     ClearDisplay();
     let Result = Calc();
     CalcInfo.Num1 = Result;
     CalcInfo.Num2 = "";
-
-    Display.innerHTML = Result + " ÷ ";
     CalcInfo.Operation = "Division";
   }
+  UpdateDisplay();
 });
 MultiplicationBtn.addEventListener("click", () => {
   if (CalcInfo.Operation === "Multiplication" && !CalcInfo.Num2) return;
   if (CalcInfo.Num1 && !CalcInfo.Num2) {
     CalcInfo.Operation = "Multiplication";
-    AddSymbol("×");
   }
   if (CalcInfo.Num1 && CalcInfo.Num2 && CalcInfo.Operation) {
     ClearDisplay();
     let Result = Calc();
     CalcInfo.Num1 = Result;
     CalcInfo.Num2 = "";
-
-    Display.innerHTML = Result + " × ";
     CalcInfo.Operation = "Multiplication";
   }
+  UpdateDisplay();
 });
 AdditionBtn.addEventListener("click", () => {
   if (CalcInfo.Operation === "Addition" && !CalcInfo.Num2) return;
   if (CalcInfo.Num1 && !CalcInfo.Num2) {
     CalcInfo.Operation = "Addition";
-    AddSymbol("+");
   }
   if (CalcInfo.Num1 && CalcInfo.Num2 && CalcInfo.Operation) {
     ClearDisplay();
     let Result = Calc();
     CalcInfo.Num1 = Result;
     CalcInfo.Num2 = "";
-
-    Display.innerHTML = Result + " + ";
     CalcInfo.Operation = "Addition";
   }
+  UpdateDisplay();
 });
 SubtractionBtn.addEventListener("click", () => {
   if (CalcInfo.Operation === "Subtraction" && !CalcInfo.Num2) return;
   if (CalcInfo.Num1 && !CalcInfo.Num2) {
     CalcInfo.Operation = "Subtraction";
-    AddSymbol("-");
   }
   if (CalcInfo.Num1 && CalcInfo.Num2 && CalcInfo.Operation) {
     ClearDisplay();
     let Result = Calc();
     CalcInfo.Num1 = Result;
     CalcInfo.Num2 = "";
-    Display.innerHTML = Result + " - ";
     CalcInfo.Operation = "Subtraction";
   }
+  UpdateDisplay();
 });
 window.addEventListener("keydown", (Event) => {
   let NumbersKeyCode = [105, 104, 103, 102, 101, 100, 99, 98, 97, 96];

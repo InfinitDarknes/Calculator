@@ -1,116 +1,45 @@
-@font-face {
-  font-family: SpaceGrotesk;
-  src: url(../Fonts/SpaceGrotesk-Medium.ttf);
-}
-* {
-  font-family: SpaceGrotesk;
-}
-body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  min-height: 100vh;
-  background-color: #dad6d6;
-  overflow-y: scroll;
-}
-#calculator {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-}
-#display {
-  width: calc(100% - 60px);
-  height: 60px;
-  font-size: 2.5em;
-  padding: 30px;
-  color: #1b1a1d;
-}
-#buttons-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-.btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100px;
-  height: 100px;
-  border: 0;
-  border-radius: 50%;
-  font-size: 2em;
-  cursor: pointer;
-}
-.number-btn {
-  background-color: #1b1a1d;
-  color: #dad6d6;
-}
-.operation-btn {
-  background-color: #ff5c39;
-  color: #1b1a1d;
-}
-#equal-btn {
-  background-color: #f1bd07;
-  color: #1b1a1d;
-}
-footer {
-  width: calc(100% - 40px);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #1b1a1d;
-}
-#footer-ul {
-  display: flex;
-  margin: 20px 0;
-  padding: 0;
-}
-#footer-ul li {
-  margin: 0 20px;
-  list-style: none;
-  font-size: 1.2em;
-}
-
-#tea {
-  color: #dad6d6;
-}
-@media screen and (max-width: 500px) {
-  #display {
-    width: calc(100% - 20px);
-    padding: 10px;
-  }
-  #calculator {
-    width: calc(100% - 20px);
-    padding: 10px;
-  }
-  #buttons-container {
-    width: 100%;
-  }
-  .btn {
-    width: 70px;
-    height: 70px;
-    font-size: 1.2em;
-  }
-}
-@media screen and (max-width: 350px) {
-  .btn {
-    width: 60px;
-    height: 60px;
-  }
-  footer {
-    width: calc(100% - 20px);
-    padding: 10px;
-  }
-  #footer-ul {
-    margin: 15px 0;
-  }
-  #footer-ul li {
-    margin: 0 10px;
-    font-size: 1.2em;
-  }
-}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="Style/Style.css" />
+    <title>Calculator</title>
+  </head>
+  <body>
+    <section id="calculator">
+      <div id="display"></div>
+      <section id="buttons-container">
+        <button id="clear-btn" class="operation-btn btn">AC</button>
+        <button id="delete-btn" class="operation-btn btn">Del</button>
+        <button id="remainder-btn" class="operation-btn btn">%</button>
+        <button id="division-btn" class="operation-btn btn">÷</button>
+        <button id="key-7" class="number-btn btn" data-num="7">7</button>
+        <button id="key-8" class="number-btn btn" data-num="8">8</button>
+        <button id="key-9" class="number-btn btn" data-num="9">9</button>
+        <button id="multiplication-btn" class="operation-btn btn">*</button>
+        <button id="key-4" class="number-btn btn" data-num="4">4</button>
+        <button id="key-5" class="number-btn btn" data-num="5">5</button>
+        <button id="key-6" class="number-btn btn" data-num="6">6</button>
+        <button id="addition-btn" class="operation-btn btn">+</button>
+        <button id="key-1" class="number-btn btn" data-num="1">1</button>
+        <button id="key-2" class="number-btn btn" data-num="2">2</button>
+        <button id="key-3" class="number-btn btn" data-num="3">3</button>
+        <button id="subtraction-btn" class="operation-btn btn">-</button>
+        <button id="key-0" class="number-btn btn" data-num="0">0</button>
+        <button id="" class="number-btn btn" data-num="00">00</button>
+        <button id="float-btn" class="number-btn btn" data-num=".">.</button>
+        <button id="equal-btn" class="btn">=</button>
+      </section>
+    </section>
+    <footer>
+      <ul id="footer-ul">
+        <li><a href="">Source</a></li>
+        <li><a href="https://github.com/InfinitDarknes">Github</a></li>
+        <li><a href="https://t.me/arashdevx">Telegram</a></li>
+      </ul>
+      <span id="tea">Built with tea by Arash Dehdashti</span>
+    </footer>
+  </body>
+  <script src="Javascript/Code.js"></script>
+</html>

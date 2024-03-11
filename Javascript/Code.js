@@ -69,19 +69,27 @@ function Delete() {
   }
 }
 function Addition() {
-  return (+CalcInfo.Num1 + +CalcInfo.Num2).toFixed(5);
+  if (HasDecimals(+CalcInfo.Num1 + +CalcInfo.Num2)) return (+CalcInfo.Num1 + +CalcInfo.Num2).toFixed(5);
+  else return (+CalcInfo.Num1 + +CalcInfo.Num2).toFixed(0);
 }
 function Subtraction() {
-  return (+CalcInfo.Num1 - +CalcInfo.Num2).toFixed(5);
+  if (HasDecimals(+CalcInfo.Num1 - +CalcInfo.Num2)) return (+CalcInfo.Num1 - +CalcInfo.Num2).toFixed(5);
+  else return (+CalcInfo.Num1 - +CalcInfo.Num2).toFixed(0);
 }
 function Multiplication() {
-  return (+CalcInfo.Num1 * +CalcInfo.Num2).toFixed(5);
+  if (HasDecimals(+CalcInfo.Num1 * +CalcInfo.Num2)) return (+CalcInfo.Num1 * +CalcInfo.Num2).toFixed(5);
+  else return (+CalcInfo.Num1 * +CalcInfo.Num2).toFixed(0);
 }
 function Remainder() {
-  return (+CalcInfo.Num1 % +CalcInfo.Num2).toFixed(5);
+  if (HasDecimals(+CalcInfo.Num1 % +CalcInfo.Num2)) return (+CalcInfo.Num1 % +CalcInfo.Num2).toFixed(5);
+  else return (+CalcInfo.Num1 % +CalcInfo.Num2).toFixed(0);
 }
 function Division() {
-  return (+CalcInfo.Num1 / +CalcInfo.Num2).toFixed(5);
+  if (HasDecimals(+CalcInfo.Num1 / +CalcInfo.Num2)) return (+CalcInfo.Num1 / +CalcInfo.Num2).toFixed(5);
+  else return (+CalcInfo.Num1 / +CalcInfo.Num2).toFixed(0);
+}
+function HasDecimals(Num) {
+  return +Num % 1 !== 0;
 }
 NumberBtns.forEach((Btn) => {
   Btn.addEventListener("click", (Event) => {

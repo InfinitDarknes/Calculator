@@ -59,7 +59,14 @@ function UpdateDisplay() {
   }
 }
 function NumberSeperator(Number) {
-  let Num = Number.toString();
+  let Num;
+  let DecimalPartOfNum;
+  if (HasDecimals(Number)) {
+    Num = Number.toString().split(".")[0];
+    DecimalPartOfNum = Number.toString().split(".")[1];
+  } else {
+    Num = Number.toString();
+  }
   let NumArray = Num.split("");
   let SeperatedArray = [...NumArray];
   let Length = Num.length;
@@ -70,7 +77,8 @@ function NumberSeperator(Number) {
     if (n > 1) Position -= n - 1;
     SeperatedArray.splice(Position, 0, ",");
   }
-  return SeperatedArray.join("");
+  if (DecimalPartOfNum) return SeperatedArray.join("") + "." + DecimalPartOfNum;
+  else return SeperatedArray.join("");
 }
 //
 function Calc() {
